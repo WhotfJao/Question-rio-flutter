@@ -1,48 +1,75 @@
 import 'package:flutter/material.dart';
+import 'questao.dart';
+import 'Respostas.dart';
 
 void main() {
-  runApp(PerguntandoApp());
+  runApp(const PerguntandoApp());
 }
 
 class _PerguntandoAppState extends State<PerguntandoApp> {
   var _perguntaSelecionada = 0;
+  final List perguntas = const [
+    {
+      'texto': 'qual sua cor favorita?',
+      'Respostas': ['Marrom', 'Vermelho', 'Preto', 'Branco']
+    },
+    {
+      'texto': 'qual seu animal favorito?',
+      'Respostas': ['Cachorro', 'Gato', 'Cavalo', 'Vaca']
+    },
+    {
+      'texto': 'Qual seu time do coração?',
+      'Respostas': ['Corinthians', 'Vasco', 'Palmeiras', 'Santos']
+    }
+  ];
   void _responder() {
     setState(() {
       _perguntaSelecionada++;
     });
-    // ignore: avoid_print
-    print('Pergunta Respondida!: $_perguntaSelecionada');
+    print(_perguntaSelecionada);
+  }
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < perguntas.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    final perguntas = ['qual sua cor favorita?', 'qual seu animal favorito?'];
+    List<String>? respostas = temPerguntaSelecionada
+        ? perguntas[_perguntaSelecionada]['Respostas']
+        : null;
+
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.blueAccent,
-            title: const Text(
-              'Vascão',
-              style: TextStyle(color: Colors.yellow),
-            ),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.blueAccent,
+          title: const Text(
+            'Perguntando App',
+            style: TextStyle(color: Colors.white),
           ),
-          body: Column(
-            children: <Widget>[
-              Text(perguntas[_perguntaSelecionada],
-                  style: const TextStyle(color: Colors.red)),
-              ElevatedButton(
-                  onPressed: _responder, child: const Text('Marrom')),
-              ElevatedButton(
-                  onPressed: _responder, child: const Text('Vermelho')),
-              ElevatedButton(onPressed: _responder, child: const Text('Verde'))
-            ],
-          ),
-        ));
+        ),
+        body: temPerguntaSelecionada
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Questao(perguntas[_perguntaSelecionada]['texto']),
+                  const SizedBox(height: 16.0),
+                  if (respostas != null)
+                    ...respostas.map((t) => Respostas(t, _responder)).toList(),
+                ],
+              )
+            : null,
+      ),
+    );
   }
 }
 
 class PerguntandoApp extends StatefulWidget {
+  const PerguntandoApp({super.key});
+
+  @override
   State<PerguntandoApp> createState() {
     return _PerguntandoAppState();
   }
