@@ -4,7 +4,7 @@ class Respostas extends StatelessWidget {
   final String texto;
   final void Function() onSelecao;
 
-  Respostas(this.texto, this.onSelecao);
+  Respostas(this.texto, this.onSelecao, {required ButtonStyle buttonStyle});
 
   @override
   Widget build(BuildContext context) {
