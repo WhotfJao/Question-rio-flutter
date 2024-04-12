@@ -9,7 +9,7 @@ void main() {
 
 class _PerguntandoAppState extends State<PerguntandoApp> {
   var _perguntaSelecionada = 0;
- final List<Map<String, dynamic>> perguntas = [
+ final List<Map<String, dynamic>> perguntas =  [
     {
       'texto': 'qual sua cor favorita?',
       'Respostas': [
